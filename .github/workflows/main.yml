@@ -3,48 +3,18 @@ name: CI
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
-  build:
+  build-kernel:
     name: Build Kernel for unicorn
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
+    runs-on: ubuntu-22.04
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Patch defconfig for Docker
-      run: |
-        git clone --depth=1 -b lineage-23.2 https://github.com/LineageOS/android_kernel_xiaomi_sm8450 kernel-src
-        cd kernel-src
-
-        DEFCONFIG=$(find arch/arm64/configs -name "*unicorn*defconfig" | head -n 1)
-        echo "Found defconfig: $DEFCONFIG"
-
-        if [ -z "$DEFCONFIG" ]; then
-          echo "未找到 unicorn_defconfig，尝试使用 vendor/unicorn_defconfig"
-          DEFCONFIG="arch/arm64/configs/vendor/unicorn_defconfig"
-        fi
-
-        echo "CONFIG_PID_NS=y" >> "$DEFCONFIG"
-        echo "CONFIG_IPC_NS=y" >> "$DEFCONFIG"
-        echo "CONFIG_USER_NS=y" >> "$DEFCONFIG"
-        echo "CONFIG_CGROUP_DEVICE=y" >> "$DEFCONFIG"
-        echo "CONFIG_CGROUP_PIDS=y" >> "$DEFCONFIG"
-        echo "CONFIG_CPUSETS=y" >> "$DEFCONFIG"
-        echo "CONFIG_MEMCG=y" >> "$DEFCONFIG"
-        echo "CONFIG_CGROUP_SCHED=y" >> "$DEFCONFIG"
-        echo "CONFIG_CFS_BANDWIDTH=y" >> "$DEFCONFIG"
-        echo "CONFIG_IPV6_NF_TARGET_MASQUERADE=y" >> "$DEFCONFIG"
-
-        git diff "$DEFCONFIG"
-
-    - name: Build Kernel
-      uses: ./
-      with:
-          kernel-url: https://github.com/LineageOS/android_kernel_xiaomi_sm8450
-          kernel-dir: sm8450
+      - name: Build
+        uses: dabao1955/kernel_build_action@main
+        with:
+          kernel-url: https://github.com/TianXiao203/android_kernel_xiaomi_sm8450
           kernel-branch: lineage-23.2
           config: unicorn_defconfig
           arch: arm64
@@ -52,4 +22,8 @@ jobs:
           aosp-clang: true
           android-version: 16
           disable-lto: true
+          lxc: true
+          lxc-patch: true
           anykernel3: true
+          release: true
+          access-token: ${{ secrets.GITHUB_TOKEN }}
