@@ -11,6 +11,10 @@ jobs:
     name: Build Kernel for unicorn
     runs-on: ubuntu-22.04
     steps:
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y coccinelle parallel
       - name: Build
         uses: dabao1955/kernel_build_action@main
         with:
