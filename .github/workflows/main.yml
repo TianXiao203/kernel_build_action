@@ -14,13 +14,15 @@ jobs:
       - name: Build
         uses: dabao1955/kernel_build_action@main
         with:
-          aosp-clang-version: r487747c
           kernel-url: https://github.com/TianXiao203/android_kernel_xiaomi_sm8450
           kernel-branch: lineage-23.2
           config: vendor/unicorn_GKI.config
           arch: arm64
           aosp-gcc: true
-          aosp-clang: true
+          aosp-clang: false
+          other-clang: true
+          other-clang-url: https://github.com/kdrag0n/proton-clang
+          other-clang-branch: master
           android-version: 16
           disable-lto: true
           lxc: true
