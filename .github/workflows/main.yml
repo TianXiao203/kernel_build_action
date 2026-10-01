@@ -16,7 +16,7 @@ jobs:
 
     - name: Patch defconfig for Docker
       run: |
-        git clone --depth=1 -b lineage-22.2 https://github.com/LineageOS/android_kernel_xiaomi_sm8450 kernel-src
+        git clone --depth=1 -b lineage-23.2 https://github.com/LineageOS/android_kernel_xiaomi_sm8450 kernel-src
         cd kernel-src
 
         DEFCONFIG=$(find arch/arm64/configs -name "*unicorn*defconfig" | head -n 1)
@@ -45,11 +45,11 @@ jobs:
       with:
           kernel-url: https://github.com/LineageOS/android_kernel_xiaomi_sm8450
           kernel-dir: sm8450
-          kernel-branch: lineage-22.2
+          kernel-branch: lineage-23.2
           config: unicorn_defconfig
           arch: arm64
           aosp-gcc: true
           aosp-clang: true
-          android-version: 15
+          android-version: 16
           disable-lto: true
           anykernel3: true
