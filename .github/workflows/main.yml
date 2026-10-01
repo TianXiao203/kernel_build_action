@@ -18,12 +18,11 @@ jobs:
           kernel-branch: lineage-23.2
           config: vendor/unicorn_GKI.config
           arch: arm64
-          aosp-gcc: true
+          aosp-gcc: false
           aosp-clang: false
-          other-clang: true
           other-clang-url: https://github.com/kdrag0n/proton-clang
           other-clang-branch: master
-          android-version: 16
+          android-version: 12
           disable-lto: true
           lxc: true
           lxc-patch: true
