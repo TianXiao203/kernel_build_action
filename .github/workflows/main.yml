@@ -19,8 +19,9 @@ jobs:
           config: vendor/unicorn_GKI.config
           arch: arm64
           aosp-gcc: true
-          aosp-clang: true
-          aosp-clang-version: r487747c
+          aosp-clang: false
+          other-clang-url: https://github.com/kdrag0n/proton-clang
+          other-clang-branch: master
           android-version: 12
           disable-lto: true
           lxc: true
